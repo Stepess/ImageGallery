@@ -23,20 +23,16 @@ public class SlideShow extends File{
     public SlideShow(String name, String format, double weightInMb, LocalDateTime timeOfLastEdit, List<Image> frames) {
         super(name, format, weightInMb, timeOfLastEdit);
         this.frames = frames;
+        tags = new HashSet<>();
         for (Image frame: frames){
             tags.add(frame.getTag());
-            weightInMb += frame.getWeightInMb();
+            this.weightInMb += frame.getWeightInMb();
         }
 
     }
 
     public List<Image> getFrames() {
         return frames;
-    }
-
-    public void setFrames(List<Image> frames) {
-        this.frames = frames;
-        setTimeOfLastEdit(LocalDateTime.now());
     }
 
     public Set<String> getTags() {
@@ -62,7 +58,7 @@ public class SlideShow extends File{
         setTimeOfLastEdit(LocalDateTime.now());
     }
 
-    public void setFrame(Image img, int position) {
+    public void addFrame(Image img, int position) {
         frames.add(position, img);
         tags.add(img.getTag());
         weightInMb += img.getWeightInMb();
@@ -71,20 +67,20 @@ public class SlideShow extends File{
 
     public void deleteFrame(int position) {
         weightInMb -= frames.get(position).getWeightInMb();
-        removeTagIfThereAreNotImageWithIt(frames.get(position).getTag());
+        removeTagIfThereAreNotImageWithIt(frames.get(position));
         frames.remove(position);
         setTimeOfLastEdit(LocalDateTime.now());
     }
 
-    private void removeTagIfThereAreNotImageWithIt(String tag) {
+    private void removeTagIfThereAreNotImageWithIt(Image img) {
         boolean remove = true;
         for (Image frame: frames)
-            if (frame.getTag().equals(tag)) {
+            if (img != frame && frame.getTag().equals(img.getTag())) {
                 remove = false;
                 break;
             }
         if (remove)
-            tags.remove(tag);
+            tags.remove(img.getTag());
     }
 
     public void mergeSlideShow(SlideShow slideShow) {
