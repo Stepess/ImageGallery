@@ -1,14 +1,15 @@
 package ua.training.model.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SlideShow extends File{
     public enum SlideShowFormat{
-        AVI, DVD, MP4
+        AVI, DVD, MP4;
+
+        public static boolean contains(String format){
+            return Arrays.toString(SlideShowFormat.values()).contains(format.toUpperCase());
+        }
     }
 
     private List<Image> frames;
@@ -16,6 +17,8 @@ public class SlideShow extends File{
 
     public SlideShow(String name, String format, double weightInMb, LocalDateTime timeOfLastEdit) {
         super(name, format, weightInMb, timeOfLastEdit);
+        if (!SlideShowFormat.contains(format))
+            throw new IllegalArgumentException("Unfortunately, such format isn't supported.");
         frames = new ArrayList<>();
         tags = new HashSet<>();
     }

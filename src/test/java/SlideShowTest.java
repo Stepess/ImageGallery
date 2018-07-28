@@ -13,6 +13,13 @@ import java.util.Set;
 
 public class SlideShowTest {
 
+    @Test(expected = IllegalArgumentException.class)
+    public void WhenWriteUnsupportedFormatThrowException() {
+        SlideShow slideShow = new SlideShow("testSlideShow", "txt", 0.0, LocalDateTime.now());
+
+
+    }
+
     @Test
     public void WhenAddImagesThenTagsAddToSlideShow() {
         SlideShow slideShow = new SlideShow("testSlideShow", "avi", 0.0, LocalDateTime.now());

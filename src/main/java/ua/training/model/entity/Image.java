@@ -10,6 +10,16 @@ public abstract class Image extends File{
         this.tag = tag;
     }
 
+    public static ImageMaker getImageMakerByFormat(String format) {
+        if (RasterImage.RasterFormat.contains(format))
+            return new RasterImageMaker();
+        else if (VectorImage.VectorFormat.contains(format))
+            return new VectorImageMaker();
+        else
+            throw new IllegalArgumentException("Unfortunately, such format isn't supported.");
+    }
+
+
     @Override
     public void open() {
         this.toString();
@@ -39,3 +49,4 @@ public abstract class Image extends File{
         this.tag = tag;
     }
 }
+
