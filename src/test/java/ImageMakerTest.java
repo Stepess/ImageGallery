@@ -1,17 +1,17 @@
 import org.junit.Assert;
 import org.junit.Test;
 import ua.training.model.entity.Image;
-import ua.training.model.entity.ImageMaker;
+import ua.training.model.service.factory.ImageMaker;
 import ua.training.model.entity.RasterImage;
 import ua.training.model.entity.VectorImage;
 
 import java.time.LocalDateTime;
 
-public class ImageTest {
+public class ImageMakerTest {
 
     @Test
     public void WhenCreateImageWithPNGFormatThenCreateRasterImage() {
-        ImageMaker imageMaker = Image.getImageMakerByFormat("PNG");
+        ImageMaker imageMaker = ImageMaker.getImageMakerByFormat("png");
 
         Image image = imageMaker.makeImage("img1", "png", 2.58, LocalDateTime.now(), "tag1");
 
@@ -20,7 +20,7 @@ public class ImageTest {
 
     @Test
     public void WhenCreateImageWithAIFormatThenCreateVectorImage() {
-        ImageMaker imageMaker = Image.getImageMakerByFormat("AI");
+        ImageMaker imageMaker = ImageMaker.getImageMakerByFormat("AI");
 
         Image image = imageMaker.makeImage("img1", "ai", 2.58, LocalDateTime.now(), "tag1");
 
@@ -29,7 +29,7 @@ public class ImageTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void WhenCreateImageWithUnsupportedFormatThenThrowException() {
-        ImageMaker imageMaker = Image.getImageMakerByFormat("TXT");
+        ImageMaker imageMaker = ImageMaker.getImageMakerByFormat("TXT");
 
         Image image = imageMaker.makeImage("img1", "ai", 2.58, LocalDateTime.now(), "tag1");
     }

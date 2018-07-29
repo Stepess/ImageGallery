@@ -1,5 +1,9 @@
 package ua.training.model.entity;
 
+import ua.training.model.service.factory.ImageMaker;
+import ua.training.model.service.factory.RasterImageMaker;
+import ua.training.model.service.factory.VectorImageMaker;
+
 import java.time.LocalDateTime;
 
 public abstract class Image extends File{
@@ -8,15 +12,6 @@ public abstract class Image extends File{
     public Image(String name, String format, double weightInMb, LocalDateTime timeOfLastEdit, String tag) {
         super(name, format, weightInMb, timeOfLastEdit);
         this.tag = tag;
-    }
-
-    public static ImageMaker getImageMakerByFormat(String format) {
-        if (RasterImage.RasterFormat.contains(format))
-            return new RasterImageMaker();
-        else if (VectorImage.VectorFormat.contains(format))
-            return new VectorImageMaker();
-        else
-            throw new IllegalArgumentException("Unfortunately, such format isn't supported.");
     }
 
 
