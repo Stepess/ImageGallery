@@ -19,16 +19,17 @@ public class SlideShow extends File{
         super(name, format, weightInMb, timeOfLastEdit);
         if (!SlideShowFormat.contains(format))
             throw new IllegalArgumentException("Unfortunately, such format isn't supported.");
-        frames = new ArrayList<>();
-        tags = new HashSet<>();
+        this.frames = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
 
     public SlideShow(String name, String format, double weightInMb, LocalDateTime timeOfLastEdit, List<Image> frames) {
         super(name, format, weightInMb, timeOfLastEdit);
-        this.frames = frames;
-        tags = new HashSet<>();
+        this.frames = new ArrayList<>();
+        this.tags = new HashSet<>();
         for (Image frame: frames){
-            tags.add(frame.getTag());
+            this.frames.add(frame);
+            this.tags.add(frame.getTag());
             this.weightInMb += frame.getWeightInMb();
         }
 
