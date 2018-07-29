@@ -4,4 +4,24 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>ua.training.model.servlets.HomeServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>IndexServlet</servlet-name>
+    <servlet-class>ua.training.model.servlets.IndexServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>IndexServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

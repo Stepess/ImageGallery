@@ -28,7 +28,7 @@ public abstract class Image extends File{
 
     @Override
     public String toString() {
-        return "RasterImage{" +
+        return "{" +
                 "name='" + name + "." + format + '\'' +
                 ", tag='" + tag + '\'' +
                 ", weightInMb=" + weightInMb +

@@ -16,4 +16,8 @@ public class RasterImage extends Image {
         super(name, format, weightInMb, timeOfLastEdit, tag);
     }
 
+    @Override
+    public String toString() {
+        return "RasterImage" + super.toString();
+    }
 }

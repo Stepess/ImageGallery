@@ -15,4 +15,9 @@ public class VectorImage extends Image {
     public VectorImage(String name, String format, double weightInMb, LocalDateTime timeOfLastEdit, String tag) {
         super(name, format, weightInMb, timeOfLastEdit, tag);
     }
+
+    @Override
+    public String toString() {
+        return "VectorImage" + super.toString();
+    }
 }
