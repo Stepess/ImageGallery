@@ -14,9 +14,7 @@ public class DBManager {
     private static final String URL = "jdbc:mysql://localhost:3306/imageDB" + "?useLegacyDatetimeCode=false"+"&amp"+  "&serverTimezone=UTC"+"&useSSL=false";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
-    private static final String query = "select count(*) from images";
-    private static final String query1 = "insert into imageDB.images (id, name, format, time, tag)" +
-            "values (6, 'graf2', 'ai', '2002-12-28 13:45:58', '#my_work');";
+
 
 
     public static DBManager getInstance() {

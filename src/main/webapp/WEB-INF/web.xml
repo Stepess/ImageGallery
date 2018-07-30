@@ -4,7 +4,9 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  
+  <listener>
+    <listener-class>ua.training.model.servlets.ContextListener</listener-class>
+  </listener>
   <servlet>
     <servlet-name>HomeServlet</servlet-name>
     <servlet-class>ua.training.model.servlets.HomeServlet</servlet-class>
@@ -20,6 +22,11 @@
     <servlet-class>ua.training.model.servlets.AddServlet</servlet-class>
   </servlet>
   
+  <servlet>
+    <servlet-name>SearchServlet</servlet-name>
+    <servlet-class>ua.training.model.servlets.SearchServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>HomeServlet</servlet-name>
     <url-pattern>/home</url-pattern>
@@ -31,6 +38,10 @@
   <servlet-mapping>
     <servlet-name>AddServlet</servlet-name>
     <url-pattern>/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/search</url-pattern>
   </servlet-mapping>
   
 </web-app>

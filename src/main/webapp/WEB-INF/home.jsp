@@ -6,16 +6,61 @@
     <title>Home</title>
 </head>
 <body>
-<c:forEach var="image" items="${requestScope.images}">
-        <ol>
-            <li>Name: <c:out value="${image.name}"/></li>
-            <li>Format: <c:out value="${image.format}"/></li>
-            <li>Weight: <c:out value="${image.weightInMb}"/></li>
-            <li>Time: <c:out value="${image.timeOfLastEdit}"/></li>
-            <li>Tag: <c:out value="${image.tag}"/></li>
-        </ol>
-    <br>
-</c:forEach>
+
+<div style="text-align: center;">
+    <h1>Images Management</h1>
+    <h2>
+        <a href="/add">Add New Image</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="/">At the start</a>
+    </h2>
+    <h3>
+        <a href="/home?sort=byWeight">Sort images by weight</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="/home?sort=byTime">Sort images by Date and time of last edit</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="/home?sort=byTag">Sort images by Tag</a>
+    </h3>
+    <h3>
+        <%--<a href="/search?by=weight">Search images by weight</a>--%>
+        <%--&nbsp;&nbsp;&nbsp;--%>
+        <%--<a href="/search?by=time">Search images by Date and time of last edit</a>--%>
+        <%--&nbsp;&nbsp;&nbsp;--%>
+        <%--<a href="/search?by=tag">Search images by Tag</a>--%>
+        <a href="/search">Search</a>
+        <a href="/home?search=cancel">Cancel search results</a>
+
+    </h3>
+</div>
+<div align="center">
+    <table border="1" cellpadding="5">
+        <caption><h2>List of Images</h2></caption>
+        <tr>
+            <th>Name</th>
+            <th>Format</th>
+            <th>Weight</th>
+            <th>Date and time of last edit</th>
+            <th>Tag</th>
+            <th>Actions</th>
+        </tr>
+        <c:forEach var="image" items="${requestScope.images}">
+            <tr>
+                <td><c:out value="${image.name}" /></td>
+                <td><c:out value="${image.format}" /></td>
+                <td><c:out value="${image.weightInMb}" /></td>
+                <td><c:out value="${image.timeOfLastEdit}" /></td>
+                <td><c:out value="${image.tag}" /></td>
+                <td>
+                    <a href="/edit?id=<c:out value='${book.id}' />">Edit</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/delete?id=<c:out value='${book.id}' />">Delete</a>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
+
+
 
 <!---<c:set var="images" value="${requestScope.images}"/>
 
