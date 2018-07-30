@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeServlet extends HttpServlet {
@@ -23,27 +24,13 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         dbManager = DBManager.getInstance();
         List<Image> list = dbManager.getImagesFromDB("select * from images");
-        //req.setAttribute("images", );
-
-            StringBuffer sb = new StringBuffer("<table>");
-            for (int index = 0; index < list.size()-1; index++) {
+        req.setAttribute("images", list);
 
 
-                sb.append("<tr><td>");
-                sb.append(list.get(index));
-                sb.append("</td></tr>");
-            }
-            sb.append("</table>");
-            resp.getWriter().println(sb.toString());
-
-
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher(home);
+        requestDispatcher.forward(req,resp);
     }
 
-    public static void main(String[] args){
-        dbManager = DBManager.getInstance();
-        List<Image> list = dbManager.getImagesFromDB("select * from images");
-        System.out.println(list);
-    }
 
 
 }

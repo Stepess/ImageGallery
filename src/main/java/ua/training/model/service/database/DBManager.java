@@ -5,6 +5,7 @@ import ua.training.model.service.factory.ImageMaker;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,32 @@ public class DBManager {
                 Integer.parseInt(time.substring(14,16)),
                 Integer.parseInt(time.substring(17,19))
         );
+    }
+
+    public void insertImageInDB(Image image) throws SQLException {
+
+        String query = "insert into images (name, format, weightInMb, time, tag)" +
+                "values (?, ?, ?, ?, ?)";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)
+             ) {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1,image.getName());
+                preparedStatement.setString(2,image.getFormat());
+                preparedStatement.setDouble(3,image.getWeightInMb());
+                preparedStatement.setString(4,image.getTimeOfLastEdit().format(DateTimeFormatter.ofPattern("uuuu-MM-d HH:mm:ss")));
+                preparedStatement.setString(5,image.getTag());
+                preparedStatement.execute();
+            }
+
+        catch (SQLException ex) {
+            throw ex;
+        }
     }
 
     public static void main(String[] args){
