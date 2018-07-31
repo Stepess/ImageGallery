@@ -13,6 +13,13 @@ public class SlideShow extends File{
                     return true;
             return false;
         }
+
+        public static List<String> getAllFormats(){
+            List<String> result = new ArrayList<>();
+            for (SlideShowFormat slideShowFormat: SlideShowFormat.values())
+                result.add(slideShowFormat.toString().toLowerCase());
+            return result;
+        }
     }
 
     private List<Image> frames;
@@ -35,7 +42,6 @@ public class SlideShow extends File{
             this.tags.add(frame.getTag());
             this.weightInMb += frame.getWeightInMb();
         }
-
     }
 
     public List<Image> getFrames() {

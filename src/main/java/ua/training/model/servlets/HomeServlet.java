@@ -47,7 +47,7 @@ public class HomeServlet extends HttpServlet {
                 imagesToAdd.add(img);
         }
         if (!imagesToAdd.isEmpty()){
-            if (isNameUnique(req.getParameter("name")) && isFormatSupported(req.getParameter("format")))
+            if (isNameUnique(req.getParameter("name")))
             slideShows.add(new SlideShow(req.getParameter("name"), req.getParameter("format"),
                     0.0, LocalDateTime.now(), imagesToAdd));
         }
@@ -57,15 +57,6 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("errors", errors);
     }
 
-    private boolean isFormatSupported(String format) {
-        if (SlideShow.SlideShowFormat.contains(format))
-            return true;
-        else {
-            errors.add(String.format("Unfortunately, format %s is unsupported", format));
-            return false;
-        }
-    }
-
     private boolean isNameUnique(String name) {
         for (SlideShow slideShow: slideShows) {
             if (slideShow.getName().equals(name)) {
@@ -73,8 +64,7 @@ public class HomeServlet extends HttpServlet {
                 return false;
             }
         }
-
-            return true;
+        return true;
     }
 
 
@@ -85,31 +75,33 @@ public class HomeServlet extends HttpServlet {
         String action = req.getRequestURI();
         action = action.replace("/home/", "");
 
-            switch (action) {
-                case ("sortByWeight"):
-                    Collections.sort(list, new ImageWeightComparator());
-                    break;
-                case ("sortByTime"):
-                    Collections.sort(list, new ImageTimeOfLastEditComparator());
-                    break;
-                case ("sortByTag"):
-                    Collections.sort(list, new ImageTagComparator());
-                    break;
-                case ("getAll"):{
-                    getAllImages();
-                    break;
-                }
-                case ("delete"):{
-                    deleteImage(req.getParameter("name"));
-                    resp.sendRedirect("/home/getAll");
-                    return;
-                }
-                default:
-                    break;
+        switch (action) {
+            case ("sortByWeight"):
+                Collections.sort(list, new ImageWeightComparator());
+                break;
+            case ("sortByTime"):
+                Collections.sort(list, new ImageTimeOfLastEditComparator());
+                break;
+            case ("sortByTag"):
+                Collections.sort(list, new ImageTagComparator());
+                break;
+            case ("getAll"):{
+                getAllImages();
+                break;
             }
+            case ("delete"):{
+                deleteImage(req.getParameter("name"));
+                resp.sendRedirect("/home/getAll");
+                return;
+            }
+            default:
+                break;
+        }
 
         req.setAttribute("images", list);
         req.setAttribute("slideshows", slideShows);
+        System.out.println(SlideShow.SlideShowFormat.getAllFormats());
+        req.setAttribute("formats", SlideShow.SlideShowFormat.getAllFormats());
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(home);
         requestDispatcher.forward(req,resp);
     }

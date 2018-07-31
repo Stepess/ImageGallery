@@ -64,13 +64,18 @@
 
         </c:forEach>
     </table>
-        <label><input type="text" name="name">Name</label>
-        <label><input type="format" name="format">Format</label>
+        <label>Name<input type="text" name="name"></label>&nbsp;&nbsp;&nbsp;
+        <label>Format<select name="format">
+            <c:forEach var="format" items="${requestScope.formats}">
+                <option value="${format}"><c:out value="${format}"/></option>
+            </c:forEach>
+        </select> </label>
+        <br>
         <input type="submit" value="Create slideshow" name="Ok"><br>
     </form>
     <br>
     <br>
-
+    <c:if test="${not empty slideshows}">
     <table>
         <table border="1" cellpadding="5">
             <caption><h2>List of Slideshows</h2></caption>
@@ -97,6 +102,7 @@
             </c:forEach>
 
     </table>
+        </c:if>
 </div>
 
 

@@ -34,10 +34,7 @@ public class AddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("data", data);
         req.setAttribute("errors", errorMessages);
-        List<String> formats = new ArrayList<>();
-        formats.addAll(RasterImage.RasterFormat.getAllFormats());
-        formats.addAll(VectorImage.VectorFormat.getAllFormats());
-        req.setAttribute("formats", formats);
+        req.setAttribute("formats", getAllImageFormat());
         if (addStatus) {
             req.setAttribute("success", "Image successfully uploaded");
             addStatus = false;
@@ -46,6 +43,13 @@ public class AddServlet extends HttpServlet {
         requestDispatcher.forward(req, resp);
         data.clear();
         errorMessages.clear();
+    }
+
+    private List<String> getAllImageFormat() {
+        List<String> formats = new ArrayList<>();
+        formats.addAll(RasterImage.RasterFormat.getAllFormats());
+        formats.addAll(VectorImage.VectorFormat.getAllFormats());
+        return formats;
     }
 
     @Override
@@ -88,12 +92,6 @@ public class AddServlet extends HttpServlet {
 
         if (!data.get("name").matches(Regex.NAME_REGEX)){
             errorMessages.add(String.format("Name %s is out of format!", data.get("name")));
-            isCorrect = false;
-        }
-
-        if (!(RasterImage.RasterFormat.contains(data.get("format")) ||
-                VectorImage.VectorFormat.contains(data.get("format")))){
-            errorMessages.add(String.format("Format %s is unsupported!", data.get("format")));
             isCorrect = false;
         }
 

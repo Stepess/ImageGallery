@@ -36,9 +36,6 @@ public class SearchServlet extends HttpServlet {
         result = searchByWeight(req, result);
         result = searchByTime(req, result);
         result = searchByTag(req, result);
-        
-
-
         getServletContext().setAttribute("imageList", result);
         doGet(req, resp);
     }

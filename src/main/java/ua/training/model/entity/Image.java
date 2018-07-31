@@ -1,9 +1,5 @@
 package ua.training.model.entity;
 
-import ua.training.model.service.factory.ImageMaker;
-import ua.training.model.service.factory.RasterImageMaker;
-import ua.training.model.service.factory.VectorImageMaker;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,7 +10,6 @@ public abstract class Image extends File{
         super(name, format, weightInMb, timeOfLastEdit);
         this.tag = tag;
     }
-
 
     @Override
     public void open() {
@@ -29,7 +24,7 @@ public abstract class Image extends File{
 
     @Override
     public String toString() {
-        return "{" +
+        return ": " +
                 "name='" + name + "." + format + '\'' +
                 ", tag='" + tag + '\'' +
                 ", weightInMb=" + weightInMb +

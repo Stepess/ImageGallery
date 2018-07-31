@@ -18,13 +18,12 @@
         Name
         <label><input type=text" name="name" value="${map['name']}"></label><br>
         Format
-        <%--<label><input type="text" name="format" value="${map['format']}"></label><br>--%>
-        Tag
         <label><select name="format">
             <c:forEach var="format" items="${requestScope.formats}">
                 <option value="${format}"><c:out value="${format}"/></option>
             </c:forEach>
         </select> </label>
+        <br>
         Weight (mb)
         <label><input type="text" name="weight" value="${map['weight']}"></label><br>
         Tag
