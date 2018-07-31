@@ -28,6 +28,9 @@
         &nbsp;&nbsp;&nbsp;
         <a href="/add">Click to add</a>
     </h3>
+    <c:forEach var="error" items="${requestScope.errors}">
+        <p><span style="color: red; "><c:out value="${error}"/></span> </p>
+    </c:forEach>
 </div>
 <div align="center">
     <form method="POST" action="/home">
@@ -60,7 +63,9 @@
 
         </c:forEach>
     </table>
-        <input type="submit" value="Ok" name="Ok"><br>
+        <label><input type="text" name="name">Name</label>
+        <label><input type="format" name="format">Format</label>
+        <input type="submit" value="Create slideshow" name="Ok"><br>
     </form>
     <br>
     <br>

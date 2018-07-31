@@ -8,7 +8,10 @@ public class SlideShow extends File{
         AVI, DVD, MP4;
 
         public static boolean contains(String format){
-            return Arrays.toString(SlideShowFormat.values()).contains(format.toUpperCase());
+            for (SlideShowFormat slideShowFormat: SlideShowFormat.values())
+                if (slideShowFormat.toString().equals(format.toUpperCase()))
+                    return true;
+            return false;
         }
     }
 

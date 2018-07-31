@@ -26,6 +26,7 @@ public class HomeServlet extends HttpServlet {
     private String home = "/WEB-INF/home.jsp";
     List<Image> list;
     List<SlideShow> slideShows;
+    List<String> errors;
 
 
     @Override
@@ -37,19 +38,49 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Image> imagesToAdd = new ArrayList<>();
+        errors = new ArrayList<>();
         for (Image img: list){
             if ( req.getParameter(img.getName()) != null )
                 imagesToAdd.add(img);
         }
-        SlideShow slideShow = new SlideShow("name", "avi", 0.0, LocalDateTime.now(), imagesToAdd);
-        slideShows.add(slideShow);
+        if (!imagesToAdd.isEmpty()){
+            if (isNameUnique(req.getParameter("name")) && isFormatSupported(req.getParameter("format")))
+            slideShows.add(new SlideShow(req.getParameter("name"), req.getParameter("format"),
+                    0.0, LocalDateTime.now(), imagesToAdd));
+        }
+        else {
+            errors.add("You must chose at list one image to create a slideshow");
+        }
+        req.setAttribute("errors", errors);
         doGet(req, resp);
     }
+
+    private boolean isFormatSupported(String format) {
+        if (SlideShow.SlideShowFormat.contains(format))
+            return true;
+        else {
+            errors.add(String.format("Unfortunately,Format %s is unsupported", format));
+            return false;
+        }
+    }
+
+    private boolean isNameUnique(String name) {
+        for (SlideShow slideShow: slideShows) {
+            if (slideShow.getName().equals(name)) {
+                errors.add(String.format("Unfortunately,Name %s is already taken", name));
+                return false;
+            }
+        }
+
+            return true;
+    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         list = (List<Image>) getServletContext().getAttribute("imageList");
+
         String action = req.getParameter("sort");
         if (action != null) {
 
