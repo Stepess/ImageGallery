@@ -3,7 +3,6 @@ package ua.training.model.servlets;
 import ua.training.model.entity.Image;
 import ua.training.model.entity.RasterImage;
 import ua.training.model.entity.VectorImage;
-import ua.training.model.service.database.DBManager;
 import ua.training.model.service.database.ImageDAO;
 import ua.training.model.service.factory.ImageMaker;
 import ua.training.model.service.regex.Regex;
@@ -25,13 +24,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AddServlet extends HttpServlet {
     private List<String> errorMessages;
     private String add = "/WEB-INF/add.jsp";
-    private static DBManager dbManager;
     Map<String, String> data = new ConcurrentHashMap<>();
     Boolean addStatus = false;
 
     @Override
     public void init() throws ServletException {
-        dbManager = DBManager.getInstance();
+
     }
 
     @Override

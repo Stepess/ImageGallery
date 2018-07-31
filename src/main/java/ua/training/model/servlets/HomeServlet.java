@@ -5,8 +5,6 @@ import ua.training.model.entity.SlideShow;
 import ua.training.model.service.ImageTagComparator;
 import ua.training.model.service.ImageTimeOfLastEditComparator;
 import ua.training.model.service.ImageWeightComparator;
-import ua.training.model.service.Service;
-import ua.training.model.service.database.DBManager;
 import ua.training.model.service.database.ImageDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -22,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class HomeServlet extends HttpServlet {
-    private static DBManager dbManager;
     private String home = "/WEB-INF/home.jsp";
     List<Image> list;
     List<SlideShow> slideShows;
