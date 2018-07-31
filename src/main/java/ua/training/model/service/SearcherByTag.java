@@ -3,6 +3,7 @@ package ua.training.model.service;
 import ua.training.model.entity.Image;
 import ua.training.model.service.database.ImageDAO;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class SearcherByTag implements Service<Image> {
@@ -27,8 +28,8 @@ public class SearcherByTag implements Service<Image> {
     }
 
     @Override
-    public List<Image> searchInDB() {
+    public List<Image> searchInDB() throws SQLException {
         ImageDAO imageDAO = new ImageDAO();
-        return null;
+        return imageDAO.getImagesByTag(tag);
     }
 }

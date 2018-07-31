@@ -1,7 +1,9 @@
 package ua.training.model.service;
 
 import ua.training.model.entity.Image;
+import ua.training.model.service.database.ImageDAO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,8 @@ public class SearcherByWeight implements Service<Image> {
     }
 
     @Override
-    public List<Image> searchInDB() {
-        return null;
+    public List<Image> searchInDB() throws SQLException {
+        ImageDAO imageDAO = new ImageDAO();
+        return imageDAO.getImagesByWeight(leftBoundary, rightBoundary);
     }
 }

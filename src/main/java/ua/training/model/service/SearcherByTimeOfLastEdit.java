@@ -1,7 +1,9 @@
 package ua.training.model.service;
 
 import ua.training.model.entity.Image;
+import ua.training.model.service.database.ImageDAO;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,8 @@ public class SearcherByTimeOfLastEdit implements Service<Image>{
     }
 
     @Override
-    public List<Image> searchInDB() {
-        return null;
+    public List<Image> searchInDB() throws SQLException {
+        ImageDAO imageDAO = new ImageDAO();
+        return imageDAO.getImagesByTime(leftBoundary, rightBoundary);
     }
 }
