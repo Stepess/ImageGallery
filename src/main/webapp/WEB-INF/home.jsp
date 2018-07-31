@@ -15,16 +15,16 @@
         <a href="/">At the start</a>
     </h2>
     <h3>
-        <a href="/home?sort=byWeight">Sort images by weight</a>
+        <a href="/home/sortByWeight">Sort images by weight</a>
         &nbsp;&nbsp;&nbsp;
-        <a href="/home?sort=byTime">Sort images by Date and time of last edit</a>
+        <a href="/home/sortByTime">Sort images by Date and time of last edit</a>
         &nbsp;&nbsp;&nbsp;
-        <a href="/home?sort=byTag">Sort images by Tag</a>
+        <a href="/home/sortByTag">Sort images by Tag</a>
     </h3>
     <h3>
         <a href="/search">Search</a>
         &nbsp;&nbsp;&nbsp;
-        <a href="/home?search=cancel">Load all images</a>
+        <a href="/home/getAll">Load all images</a>
         &nbsp;&nbsp;&nbsp;
         <a href="/add">Click to add</a>
     </h3>
@@ -54,12 +54,13 @@
                 <td><c:out value="${image.timeOfLastEdit}" /></td>
                 <td><c:out value="${image.tag}" /></td>
                 <td>
-                    <a href="/home?delete=<c:out value='${image.name}' />">Delete</a>
+                    <a href="/home/delete?name=<c:out value='${image.name}' />">Delete</a>
                 </td>
                 <td>
                     <input type="checkbox" name="${image.name}" >
                 </td>
             </tr>
+
 
         </c:forEach>
     </table>

@@ -32,10 +32,8 @@ public class SearcherByTagTest {
 
     @Test
     public void searchTest(){
-        service = new SearcherByTag("tag1", "tag2", "tag4");
+        service = new SearcherByTag("tag1");
         rightResult.add(data.get(0));
-        rightResult.add(data.get(1));
-        rightResult.add(data.get(3));
 
         result = service.search(data);
 
@@ -54,6 +52,6 @@ public class SearcherByTagTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void WhenThereAreNotTagsThenThrowException() {
-        service = new SearcherByTag();
+        service = new SearcherByTag(null);
     }
 }

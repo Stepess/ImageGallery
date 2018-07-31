@@ -26,7 +26,7 @@
         <input type="submit" value="Ok" name="Ok"><br>
     </form>
 
-    <a href="/">Back to the main page</a>
+    <a href="/home/getAll">Back to the main page</a>
 </div>
 
 

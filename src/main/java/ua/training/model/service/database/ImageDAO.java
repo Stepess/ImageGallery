@@ -33,47 +33,29 @@ public class ImageDAO {
     }
 
     public boolean insertImage(Image image) throws SQLException {
-
         String query = "insert into images (name, format, weightInMb, time, tag)" +
                 "values (?, ?, ?, ?, ?)";
         connect();
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,image.getName());
-            preparedStatement.setString(2,image.getFormat());
-            preparedStatement.setDouble(3,image.getWeightInMb());
-            preparedStatement.setString(
-                    4,image.getTimeOfLastEdit().format(DateTimeFormatter.ofPattern("uuuu-MM-d HH:mm:ss")));
-            preparedStatement.setString(5,image.getTag());
-            //preparedStatement.execute();
-            boolean rowInserted = preparedStatement.executeUpdate() > 0;
-            preparedStatement.close();
-            disconnect();
-            return rowInserted;
-
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,image.getName());
+        preparedStatement.setString(2,image.getFormat());
+        preparedStatement.setDouble(3,image.getWeightInMb());
+        preparedStatement.setString(
+                4,image.getTimeOfLastEdit().format(DateTimeFormatter.ofPattern("uuuu-MM-d HH:mm:ss")));
+        preparedStatement.setString(5,image.getTag());
+        boolean rowInserted = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        disconnect();
+        return rowInserted;
     }
 
     public List<Image> getAllImages() throws SQLException {
         List<Image> result = new ArrayList<>();
-
         connect();
         String query = "select * from images";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
-
-            ImageMaker imageMaker;
-
-            while (resultSet.next()){
-                String name = resultSet.getString(2);
-                String format = resultSet.getString(3);
-                double weightInMb = resultSet.getDouble(4);
-                LocalDateTime localDateTime = timeFromDBToLocalDateTime(resultSet.getString(5));
-                String tag = resultSet.getString(6);
-
-                imageMaker = ImageMaker.getImageMakerByFormat(format);
-
-                result.add(imageMaker.makeImage(name,format,weightInMb,localDateTime,tag));
-            }
+            getImageListFromResultSet(result, resultSet);
         }
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -81,6 +63,20 @@ public class ImageDAO {
         disconnect();
         return result;
     }
+
+    private void getImageListFromResultSet(List<Image> result, ResultSet resultSet) throws SQLException {
+        ImageMaker imageMaker;
+        while (resultSet.next()){
+            String name = resultSet.getString(2);
+            String format = resultSet.getString(3);
+            double weightInMb = resultSet.getDouble(4);
+            LocalDateTime localDateTime = timeFromDBToLocalDateTime(resultSet.getString(5));
+            String tag = resultSet.getString(6);
+            imageMaker = ImageMaker.getImageMakerByFormat(format);
+            result.add(imageMaker.makeImage(name,format,weightInMb,localDateTime,tag));
+        }
+    }
+
 
     private LocalDateTime timeFromDBToLocalDateTime(String time) {
         return LocalDateTime.of(
@@ -95,12 +91,9 @@ public class ImageDAO {
 
     public boolean deleteImage(Image image) throws SQLException{
         String query = "delete from images where name = ?";
-
         connect();
-
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, image.getName());
-
         boolean rowDeleted = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
         disconnect();
@@ -109,10 +102,8 @@ public class ImageDAO {
 
     public Image getImageByName(String name) throws SQLException{
         String query = "select * from images where name = ?";
-
         connect();
         Image image = null;
-
         try(PreparedStatement preparedStatement = connection.prepareStatement(query);){
             preparedStatement.setString(1, name);
             try (ResultSet resultSet = preparedStatement.executeQuery()){
@@ -121,7 +112,6 @@ public class ImageDAO {
                     double weightInMb = resultSet.getDouble(4);
                     LocalDateTime localDateTime = timeFromDBToLocalDateTime(resultSet.getString(5));
                     String tag = resultSet.getString(6);
-
                     ImageMaker imageMaker = ImageMaker.getImageMakerByFormat(format);
                     image = imageMaker.makeImage(name, format, weightInMb, localDateTime, tag);
                 }
@@ -132,5 +122,58 @@ public class ImageDAO {
         }
         disconnect();
         return image;
+    }
+
+    public List<Image> getImagesByTag(String tag) throws SQLException {
+        List<Image> result = new ArrayList<>();
+        connect();
+        String query = "select * from images where tag=?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query);){
+            preparedStatement.setString(1, tag);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                getImageListFromResultSet(result, resultSet);
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        disconnect();
+        return result;
+    }
+
+    public List<Image> getImagesByTime(LocalDateTime leftBoundary, LocalDateTime rightBoundary) throws SQLException {
+        List<Image> result = new ArrayList<>();
+        connect();
+        String query = "select * from images where time >= ? and time <= ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query);){
+            preparedStatement.setString(1, leftBoundary.toString());
+            preparedStatement.setString(2, rightBoundary.toString());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                getImageListFromResultSet(result, resultSet);
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        disconnect();
+        return result;
+    }
+
+    public List<Image> getImagesByWeight(double leftBoundary, double rightBoundary) throws SQLException {
+        List<Image> result = new ArrayList<>();
+        connect();
+        String query = "select * from images where weightInMb >= ? and weightInMb <= ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query);){
+            preparedStatement.setString(1, Double.toString(leftBoundary));
+            preparedStatement.setString(2, Double.toString(rightBoundary));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                getImageListFromResultSet(result, resultSet);
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        disconnect();
+        return result;
     }
 }

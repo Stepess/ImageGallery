@@ -30,4 +30,9 @@ public class SearcherByWeight implements Service<Image> {
     private boolean isWeightInSearchRange(double weight) {
         return (weight >= leftBoundary) && (weight <= rightBoundary);
     }
+
+    @Override
+    public List<Image> searchInDB() {
+        return null;
+    }
 }

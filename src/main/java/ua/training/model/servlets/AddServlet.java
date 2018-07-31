@@ -29,7 +29,7 @@ public class AddServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-
+        errorMessages = new ArrayList<>();
     }
 
     @Override
@@ -48,24 +48,10 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        data.put("name", req.getParameter("name"));
-        data.put("format", req.getParameter("format"));
-        data.put("weight", req.getParameter("weight"));
-        data.put("tag", req.getParameter("tag"));
-        errorMessages = new ArrayList<>();
-
+        getDataFromReq(req);
         if (isDataCorrect(data, errorMessages) && isDataUnique(data, errorMessages)){//double check
             try{
-                ImageMaker imageMaker = ImageMaker.getImageMakerByFormat(data.get("format"));
-                Image image = imageMaker.makeImage(
-                        data.get("name"),
-                        data.get("format"),
-                        Double.parseDouble(data.get("weight")),
-                        LocalDateTime.now(),
-                        data.get("tag"));
-                //dbManager.insertImageInDB(image);
-                ImageDAO imageDAO = new ImageDAO();
-                addStatus = imageDAO.insertImage(image);
+                addImageToDB();
             }
             catch (SQLException ex){
                 ex.printStackTrace();
@@ -74,6 +60,25 @@ public class AddServlet extends HttpServlet {
             }
         }
         doGet(req, resp);
+    }
+
+    private void getDataFromReq(HttpServletRequest req) {
+        data.put("name", req.getParameter("name"));
+        data.put("format", req.getParameter("format"));
+        data.put("weight", req.getParameter("weight"));
+        data.put("tag", req.getParameter("tag"));
+    }
+
+    private void addImageToDB() throws SQLException {
+        ImageMaker imageMaker = ImageMaker.getImageMakerByFormat(data.get("format"));
+        Image image = imageMaker.makeImage(
+                data.get("name"),
+                data.get("format"),
+                Double.parseDouble(data.get("weight")),
+                LocalDateTime.now(),
+                data.get("tag"));
+        ImageDAO imageDAO = new ImageDAO();
+        addStatus = imageDAO.insertImage(image);
     }
 
     private boolean isDataCorrect(Map<String, String> data, List<String> errorMessages) {
@@ -106,7 +111,6 @@ public class AddServlet extends HttpServlet {
     private boolean isDataUnique(Map<String, String> data, List<String> errorMessages){
         boolean isUnique = true;
         ImageDAO imageDAO = new ImageDAO();
-        //List<Image> images = dbManager.getImagesFromDB("select * from images");
         List<Image> images = null;
         try {
             images = imageDAO.getAllImages();

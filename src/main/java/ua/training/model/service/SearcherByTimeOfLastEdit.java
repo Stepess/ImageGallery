@@ -33,4 +33,8 @@ public class SearcherByTimeOfLastEdit implements Service<Image>{
                 (localDateTime.isBefore(rightBoundary) || localDateTime.isEqual(leftBoundary));
     }
 
+    @Override
+    public List<Image> searchInDB() {
+        return null;
+    }
 }

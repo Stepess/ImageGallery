@@ -1,19 +1,19 @@
 package ua.training.model.service;
 
 import ua.training.model.entity.Image;
+import ua.training.model.service.database.ImageDAO;
 
 import java.util.*;
 
 public class SearcherByTag implements Service<Image> {
-    private Set<String> tags;
+    private String tag;
 
     //TODO change logic: search by single tag
 
-    public SearcherByTag(String... tags) {
-        if (tags.length == 0)
+    public SearcherByTag(String tag) {
+        if (tag == null || tag.equals(""))
             throw new IllegalArgumentException("There are no tags!");
-        this.tags = new HashSet<String>();
-        Collections.addAll(this.tags, tags);
+        this.tag = tag;
     }
 
     @Override
@@ -21,9 +21,14 @@ public class SearcherByTag implements Service<Image> {
         List<Image> result = new ArrayList<>();
 
         for (Image img: data)
-            if ( tags.contains(img.getTag()) )
+            if ( tag.equals(img.getTag()) )
                 result.add(img);
-
         return result;
+    }
+
+    @Override
+    public List<Image> searchInDB() {
+        ImageDAO imageDAO = new ImageDAO();
+        return null;
     }
 }
