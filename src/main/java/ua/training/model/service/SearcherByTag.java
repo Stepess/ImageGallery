@@ -7,6 +7,8 @@ import java.util.*;
 public class SearcherByTag implements Service<Image> {
     private Set<String> tags;
 
+    //TODO change logic: search by single tag
+
     public SearcherByTag(String... tags) {
         if (tags.length == 0)
             throw new IllegalArgumentException("There are no tags!");

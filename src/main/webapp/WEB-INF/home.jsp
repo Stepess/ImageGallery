@@ -30,6 +30,7 @@
     </h3>
 </div>
 <div align="center">
+    <form method="POST" action="/home">
     <table border="1" cellpadding="5">
         <caption><h2>List of Images</h2></caption>
         <tr>
@@ -39,8 +40,10 @@
             <th>Date and time of last edit</th>
             <th>Tag</th>
             <th>Actions</th>
+            <th>Add to Slide Show</th>
         </tr>
         <c:forEach var="image" items="${requestScope.images}">
+
             <tr>
                 <td><c:out value="${image.name}" /></td>
                 <td><c:out value="${image.format}" /></td>
@@ -50,10 +53,44 @@
                 <td>
                     <a href="/home?delete=<c:out value='${image.name}' />">Delete</a>
                 </td>
+                <td>
+                    <input type="checkbox" name="${image.name}" >
+                </td>
             </tr>
+
         </c:forEach>
     </table>
+        <input type="submit" value="Ok" name="Ok"><br>
+    </form>
+    <br>
+    <br>
 
+    <table>
+        <table border="1" cellpadding="5">
+            <caption><h2>List of Slideshows</h2></caption>
+            <tr>
+                <th>Name</th>
+                <th>Format</th>
+                <th>Weight</th>
+                <th>Date and time of last edit</th>
+                <th>Tags</th>
+                <th>Frames</th>
+            </tr>
+            <c:forEach var="slideshow" items="${requestScope.slideshows}">
+
+                <tr>
+                    <td><c:out value="${slideshow.name}" /></td>
+                    <td><c:out value="${slideshow.format}" /></td>
+                    <td><c:out value="${slideshow.weightInMb}" /></td>
+                    <td><c:out value="${slideshow.timeOfLastEdit}" /></td>
+                    <td><c:out value="${slideshow.tags}" /></td>
+                    <td><c:out value="${slideshow.frames}" /></td>
+
+                </tr>
+
+            </c:forEach>
+
+    </table>
 </div>
 
 

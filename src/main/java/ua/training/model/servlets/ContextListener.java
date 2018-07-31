@@ -1,6 +1,7 @@
 package ua.training.model.servlets;
 
 import ua.training.model.entity.Image;
+import ua.training.model.entity.SlideShow;
 import ua.training.model.service.database.ImageDAO;
 
 import javax.servlet.ServletContext;
@@ -27,6 +28,7 @@ public class ContextListener implements ServletContextListener {
             e.printStackTrace();
         }
         servletContext.setAttribute("imageList", imageList);
+        servletContext.setAttribute("slideShowList", new ArrayList<SlideShow>());
     }
 
     @Override
