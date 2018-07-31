@@ -1,6 +1,8 @@
 package ua.training.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VectorImage extends Image {
     public enum VectorFormat{
@@ -11,6 +13,13 @@ public class VectorImage extends Image {
                 if (vectorFormat.toString().equals(format.toUpperCase()))
                     return true;
             return false;
+        }
+
+        public static List<String> getAllFormats(){
+            List<String> result = new ArrayList<>();
+            for (VectorFormat vectorFormat: VectorFormat.values())
+                result.add(vectorFormat.toString().toLowerCase());
+            return result;
         }
     }
 

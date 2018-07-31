@@ -15,9 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +34,10 @@ public class AddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("data", data);
         req.setAttribute("errors", errorMessages);
+        List<String> formats = new ArrayList<>();
+        formats.addAll(RasterImage.RasterFormat.getAllFormats());
+        formats.addAll(VectorImage.VectorFormat.getAllFormats());
+        req.setAttribute("formats", formats);
         if (addStatus) {
             req.setAttribute("success", "Image successfully uploaded");
             addStatus = false;

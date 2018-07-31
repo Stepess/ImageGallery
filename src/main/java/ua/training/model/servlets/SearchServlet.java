@@ -88,3 +88,65 @@ public class SearchServlet extends HttpServlet {
         return result;
     }
 }
+
+
+/*List<Image> result = new ArrayList<>();
+        List<Image> tempResult = new ArrayList<>();
+        errors = new ArrayList<>();
+//        result = searchByWeight(req, result);
+//        result = searchByTime(req, result);
+//        result = searchByTag(req, result);
+
+        Service<Image> service;
+        if (!req.getParameter("tag").equals("")){
+            service = new SearcherByTag(req.getParameter("tag"));
+            try {
+                result = service.searchInDB();
+            } catch (SQLException e) {
+                errors.add("Something wrong with database");
+            }
+        }
+
+
+
+
+        String time = req.getParameter("leftTimeBoundary");
+        LocalDateTime ltb = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME);
+        time = req.getParameter("rightTimeBoundary");
+        LocalDateTime rtb = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME);
+
+        service = new SearcherByTimeOfLastEdit(ltb, rtb);
+        try {
+            tempResult = service.searchInDB();
+        } catch (SQLException e) {
+            errors.add("Something wrong with database");
+        }
+
+
+        for (Image img: result){
+            if (!tempResult.contains(img))
+                result.remove(img);
+        }
+        tempResult.clear();
+
+
+
+        service = new SearcherByWeight(Double.parseDouble(req.getParameter("leftWeightBoundary")),
+                Double.parseDouble(req.getParameter("rightWeightBoundary")));
+        try {
+            tempResult = service.searchInDB();
+        } catch (SQLException e) {
+            errors.add("Something wrong with database");
+        }
+        System.out.println(tempResult);
+        System.out.println(result);
+
+        for (Image img: result){
+            if (!tempResult.contains(img))
+                result.remove(img);
+        }
+        tempResult.clear();
+
+        System.out.println(result);
+        getServletContext().setAttribute("imageList", result);
+        doGet(req, resp);*/
