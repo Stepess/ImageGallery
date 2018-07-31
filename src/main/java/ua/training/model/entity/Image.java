@@ -5,6 +5,7 @@ import ua.training.model.service.factory.RasterImageMaker;
 import ua.training.model.service.factory.VectorImageMaker;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public abstract class Image extends File{
     protected String tag;
@@ -34,6 +35,20 @@ public abstract class Image extends File{
                 ", weightInMb=" + weightInMb +
                 ", timeOfLastEdit=" + timeOfLastEdit +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Image)) return false;
+        if (!super.equals(o)) return false;
+        Image image = (Image) o;
+        return Objects.equals(tag, image.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), tag);
     }
 
     public String getTag() {

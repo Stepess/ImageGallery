@@ -5,24 +5,32 @@
     <title>Add</title>
 </head>
 <body>
+<div align="center">
 
-<c:forEach var="error" items="${requestScope.errors}">
-    <p><span style="color: red; "><c:out value="${error}"/></span> </p>
-</c:forEach>
+    <p><span style="color: green;"> <c:out value="${success}"/></span></p>
+    <c:forEach var="error" items="${requestScope.errors}">
+        <p><span style="color: red; "><c:out value="${error}"/></span> </p>
+    </c:forEach>
 
-<c:set var="map" value="${requestScope.data}"/>
+    <c:set var="map" value="${requestScope.data}"/>
 
-<form method="post" action="/add">
-    <label><input type=text" name="name" value="${map['name']}"></label>Name<br>
-    <label><input type="text" name="format" value="${map['format']}"></label>Format<br>
-    <label><input type="text" name="weight" value="${map['weight']}"></label>Weight (mb)<br>
-    <label><input type="text" name="tag" value="${map['tag']}"></label>Tag<br>
-    <input type="submit" value="Ok" name="Ok"><br>
-</form>
+    <form method="post" action="/add">
+        Name
+        <label><input type=text" name="name" value="${map['name']}"></label><br>
+        Format
+        <label><input type="text" name="format" value="${map['format']}"></label><br>
+        Weight (mb)
+        <label><input type="text" name="weight" value="${map['weight']}"></label><br>
+        Tag
+        <label><input type="text" name="tag" value="${map['tag']}"></label><br>
+        <input type="submit" value="Ok" name="Ok"><br>
+    </form>
 
-<a href="/">Back to the main page</a>
+    <a href="/">Back to the main page</a>
+</div>
 
-<c:out value="${requestScope.imageReg}"/>
+
+
 
 </body>
 </html>

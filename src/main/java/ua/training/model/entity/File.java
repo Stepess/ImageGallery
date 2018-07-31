@@ -1,6 +1,7 @@
 package ua.training.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public abstract class File {
     protected String name;
@@ -13,6 +14,23 @@ public abstract class File {
         this.format = format;
         this.weightInMb = weightInMb;
         this.timeOfLastEdit = timeOfLastEdit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof File)) return false;
+        File file = (File) o;
+        return Double.compare(file.weightInMb, weightInMb) == 0 &&
+                Objects.equals(name, file.name) &&
+                Objects.equals(format, file.format) &&
+                Objects.equals(timeOfLastEdit, file.timeOfLastEdit);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, format, weightInMb, timeOfLastEdit);
     }
 
     public abstract void open();

@@ -43,12 +43,12 @@ public class SearchServlet extends HttpServlet {
         service = new SearcherByTimeOfLastEdit(ltb, rtb);
 
         result = service.search(result);
-        System.out.println("1"+result);
+
         if (req.getParameter("tag") != ""){
             service = new SearcherByTag(req.getParameter("tag"));
             result = service.search(result);
         }
-        System.out.println(result);
+
 
         getServletContext().setAttribute("imageList", result);
         doGet(req, resp);

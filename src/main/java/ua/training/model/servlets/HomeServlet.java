@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +25,6 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,7 +60,21 @@ public class HomeServlet extends HttpServlet {
             getServletContext().setAttribute("imageList", list);
         }
 
+        action = req.getParameter("delete");
+        if (action != null){
+            ImageDAO imageDAO = new ImageDAO();
+            Image imageToDelete;
+            try {
+                imageToDelete = imageDAO.getImageByName(action);
+                imageDAO.deleteImage(imageToDelete);
+                System.out.println(list.remove(imageToDelete));
+                getServletContext().setAttribute("imageList", list);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
+
+        }
 
         req.setAttribute("images", list);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(home);

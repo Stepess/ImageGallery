@@ -4,6 +4,7 @@ import ua.training.model.entity.Image;
 import ua.training.model.entity.RasterImage;
 import ua.training.model.entity.VectorImage;
 import ua.training.model.service.database.DBManager;
+import ua.training.model.service.database.ImageDAO;
 import ua.training.model.service.factory.ImageMaker;
 import ua.training.model.service.regex.Regex;
 
@@ -26,6 +27,7 @@ public class AddServlet extends HttpServlet {
     private String add = "/WEB-INF/add.jsp";
     private static DBManager dbManager;
     Map<String, String> data = new ConcurrentHashMap<>();
+    Boolean addStatus = false;
 
     @Override
     public void init() throws ServletException {
@@ -36,6 +38,10 @@ public class AddServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("data", data);
         req.setAttribute("errors", errorMessages);
+        if (addStatus) {
+            req.setAttribute("success", "Image successfully uploaded");
+            addStatus = false;
+        }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(add);
         requestDispatcher.forward(req, resp);
         data.clear();
@@ -59,9 +65,12 @@ public class AddServlet extends HttpServlet {
                         Double.parseDouble(data.get("weight")),
                         LocalDateTime.now(),
                         data.get("tag"));
-                dbManager.insertImageInDB(image);
+                //dbManager.insertImageInDB(image);
+                ImageDAO imageDAO = new ImageDAO();
+                addStatus = imageDAO.insertImage(image);
             }
             catch (SQLException ex){
+                ex.printStackTrace();
                 errorMessages.add("Sorry! Something went wrong. Please, resend your data.");
                 doGet(req, resp);
             }
@@ -98,8 +107,14 @@ public class AddServlet extends HttpServlet {
 
     private boolean isDataUnique(Map<String, String> data, List<String> errorMessages){
         boolean isUnique = true;
-
-        List<Image> images = dbManager.getImagesFromDB("select * from images");
+        ImageDAO imageDAO = new ImageDAO();
+        //List<Image> images = dbManager.getImagesFromDB("select * from images");
+        List<Image> images = null;
+        try {
+            images = imageDAO.getAllImages();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         for (Image image: images)
             if (image.getName().equals(data.get("name"))){

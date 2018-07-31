@@ -9,27 +9,26 @@
 
 <div style="text-align: center;">
     <h1>Images Management</h1>
-
 </div>
 <div align="center">
     <form method="post" action="/search">
-<p>time</p>
-        <input type="datetime-local" name="leftTimeBoundary" value="1984-01-01T00:00:00"
-               min="1984-01-01T00:00:00" max="2020-02-14T00:00:00" step="1"/>
-        <input type="datetime-local" name="rightTimeBoundary" value="2020-02-14T00:00:00"
-               min="1984-01-01T00:00:00" max="2020-02-14T00:00:00" step="1"/>
+        <p>Time range</p>
+        <label><input type="datetime-local" name="leftTimeBoundary" value="1984-01-01T00:00:00"
+                     min="1984-01-01T00:00:00" max="2020-02-14T00:00:00" step="1"/></label>
+        <label><input type="datetime-local" name="rightTimeBoundary" value="2020-02-14T00:00:00"
+                     min="1984-01-01T00:00:00" max="2020-02-14T00:00:00" step="1"/></label>
         <br>
-        <p>weight</p>
+        <p>Weight range</p>
         <br>
         <label><input type="number" name="leftWeightBoundary" value="0.0" step="0.0001"></label>
         <label><input type="number" name="rightWeightBoundary" value="100.0" step="0.0001"></label>
         <br>
-        <p>tag</p>
+        <p>Tag range</p>
         <br>
         <label><input type="text" name="tag"></label>
         <input type="submit" value="Ok" name="Ok"><br>
     </form>
-    <a href="/home">Click here!</a>
+    <a href="/home">View result</a>
 </div>
 
 
@@ -41,6 +40,5 @@
     <br>
 </c:forEach>--->
 
-<a href="/add">Click to add</a>
 </body>
 </html>
