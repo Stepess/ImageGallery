@@ -9,11 +9,6 @@
 
 <div style="text-align: center;">
     <h1>Images Management</h1>
-    <h2>
-        <a href="/add">Add New Image</a>
-        &nbsp;&nbsp;&nbsp;
-        <a href="/">At the start</a>
-    </h2>
     <h3>
         <a href="/home/sortByWeight">Sort images by weight</a>
         &nbsp;&nbsp;&nbsp;
@@ -26,7 +21,7 @@
         &nbsp;&nbsp;&nbsp;
         <a href="/home/getAll">Load all images</a>
         &nbsp;&nbsp;&nbsp;
-        <a href="/add">Click to add</a>
+        <a href="/add">Add New Image</a>
     </h3>
     <c:forEach var="error" items="${requestScope.errors}">
         <p><span style="color: red; "><c:out value="${error}"/></span> </p>
@@ -46,7 +41,6 @@
             <th>Add to Slide Show</th>
         </tr>
         <c:forEach var="image" items="${requestScope.images}">
-
             <tr>
                 <td><c:out value="${image.name}" /></td>
                 <td><c:out value="${image.format}" /></td>
@@ -60,23 +54,32 @@
                     <input type="checkbox" name="${image.name}" >
                 </td>
             </tr>
-
-
         </c:forEach>
     </table>
-        <label>Name<input type="text" name="name"></label>&nbsp;&nbsp;&nbsp;
-        <label>Format<select name="format">
-            <c:forEach var="format" items="${requestScope.formats}">
-                <option value="${format}"><c:out value="${format}"/></option>
-            </c:forEach>
-        </select> </label>
-        <br>
+
+        <table cellpadding="5">
+            <tr>
+                <td><p>Name</p></td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td><p>Format</p></td>
+                <td>
+                    <select name="format">
+                        <c:forEach var="format" items="${requestScope.formats}">
+                            <option value="${format}"><c:out value="${format}"/></option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+        </table>
         <input type="submit" value="Create slideshow" name="Ok"><br>
     </form>
     <br>
     <br>
     <c:if test="${not empty slideshows}">
     <table>
+        <br>
         <table border="1" cellpadding="5">
             <caption><h2>List of Slideshows</h2></caption>
             <tr>
@@ -88,7 +91,6 @@
                 <th>Frames</th>
             </tr>
             <c:forEach var="slideshow" items="${requestScope.slideshows}">
-
                 <tr>
                     <td><c:out value="${slideshow.name}" /></td>
                     <td><c:out value="${slideshow.format}" /></td>
@@ -98,22 +100,9 @@
                     <td><c:out value="${slideshow.frames}" /></td>
 
                 </tr>
-
             </c:forEach>
-
-    </table>
-        </c:if>
+        </table>
+    </c:if>
 </div>
-
-
-
-<!---<c:set var="images" value="${requestScope.images}"/>
-
-<c:forEach var="i" begin="0" end="2">
-    <p><c:out value="${images[i]}"/></p>
-    <br>
-</c:forEach>--->
-
-
 </body>
 </html>

@@ -25,6 +25,20 @@ public class SlideShow extends File{
     private List<Image> frames;
     private Set<String> tags;
 
+    public String getStringOfFrames() {
+        StringBuilder sb = new StringBuilder();
+        for (Image img: frames)
+            sb.append(img.toString()).append("\n");
+        return sb.toString();
+    }
+
+    public String getStringOfTags() {
+        StringBuilder sb = new StringBuilder();
+        for (String tag: tags)
+            sb.append(tag).append("\n");
+        return sb.toString();
+    }
+
     public SlideShow(String name, String format, double weightInMb, LocalDateTime timeOfLastEdit) {
         super(name, format, weightInMb, timeOfLastEdit);
         if (!SlideShowFormat.contains(format))

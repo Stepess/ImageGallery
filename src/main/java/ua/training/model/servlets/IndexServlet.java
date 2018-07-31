@@ -11,7 +11,6 @@ public class IndexServlet extends HttpServlet {
     private String index = "/WEB-INF/index.jsp";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher(index);
-        requestDispatcher.forward(req, resp);
+        resp.sendRedirect("/home");
     }
 }

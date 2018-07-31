@@ -100,7 +100,6 @@ public class HomeServlet extends HttpServlet {
 
         req.setAttribute("images", list);
         req.setAttribute("slideshows", slideShows);
-        System.out.println(SlideShow.SlideShowFormat.getAllFormats());
         req.setAttribute("formats", SlideShow.SlideShowFormat.getAllFormats());
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(home);
         requestDispatcher.forward(req,resp);
