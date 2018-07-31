@@ -11,6 +11,11 @@
     <h1>Images Management</h1>
 </div>
 <div align="center">
+
+    <c:forEach var="error" items="${requestScope.errors}">
+        <p><span style="color: red; "><c:out value="${error}"/></span> </p>
+    </c:forEach>
+
     <form method="post" action="/search">
         <p>Time range</p>
         <label><input type="datetime-local" name="leftTimeBoundary" value="1984-01-01T00:00:00"
