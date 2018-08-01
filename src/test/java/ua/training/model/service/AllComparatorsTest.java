@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.training.model.entity.Image;
 import ua.training.model.entity.RasterImage;
+import ua.training.model.service.comparators.ImageTagComparator;
+import ua.training.model.service.comparators.ImageTimeOfLastEditComparator;
+import ua.training.model.service.comparators.ImageWeightComparator;
 
 import java.time.LocalDateTime;
 import java.util.*;

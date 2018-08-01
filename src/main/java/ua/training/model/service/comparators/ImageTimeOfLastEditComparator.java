@@ -1,4 +1,4 @@
-package ua.training.model.service;
+package ua.training.model.service.comparators;
 
 import ua.training.model.entity.Image;
 

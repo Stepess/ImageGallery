@@ -92,6 +92,14 @@ public class SlideShow extends File{
         setTimeOfLastEdit(LocalDateTime.now());
     }
 
+    public void deleteFrame(Image frame) {
+        weightInMb -= frame.weightInMb;
+        removeTagIfThereAreNotImageWithIt(frame);
+        frames.remove(frame);
+        setTimeOfLastEdit(LocalDateTime.now());
+
+    }
+
     public void deleteFrame(int position) {
         weightInMb -= frames.get(position).getWeightInMb();
         removeTagIfThereAreNotImageWithIt(frames.get(position));

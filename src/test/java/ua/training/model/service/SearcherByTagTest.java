@@ -5,8 +5,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.training.model.entity.Image;
 import ua.training.model.entity.RasterImage;
-import ua.training.model.service.SearcherByTag;
-import ua.training.model.service.Service;
+import ua.training.model.service.search.SearcherByTag;
+import ua.training.model.service.search.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

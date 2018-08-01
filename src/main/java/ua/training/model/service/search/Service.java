@@ -1,4 +1,4 @@
-package ua.training.model.service;
+package ua.training.model.service.search;
 
 import java.sql.SQLException;
 import java.util.List;

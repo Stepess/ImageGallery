@@ -1,4 +1,4 @@
-package ua.training.model.service;
+package ua.training.model.service.search;
 
 import ua.training.model.entity.Image;
 import ua.training.model.service.database.ImageDAO;

@@ -1,10 +1,10 @@
 package ua.training.model.servlets;
 
 import ua.training.model.entity.Image;
-import ua.training.model.service.SearcherByTag;
-import ua.training.model.service.SearcherByTimeOfLastEdit;
-import ua.training.model.service.SearcherByWeight;
-import ua.training.model.service.Service;
+import ua.training.model.service.search.SearcherByTag;
+import ua.training.model.service.search.SearcherByTimeOfLastEdit;
+import ua.training.model.service.search.SearcherByWeight;
+import ua.training.model.service.search.Service;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

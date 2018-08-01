@@ -2,10 +2,11 @@ package ua.training.model.servlets;
 
 import ua.training.model.entity.Image;
 import ua.training.model.entity.SlideShow;
-import ua.training.model.service.ImageTagComparator;
-import ua.training.model.service.ImageTimeOfLastEditComparator;
-import ua.training.model.service.ImageWeightComparator;
+import ua.training.model.service.comparators.ImageTagComparator;
+import ua.training.model.service.comparators.ImageTimeOfLastEditComparator;
+import ua.training.model.service.comparators.ImageWeightComparator;
 import ua.training.model.service.database.ImageDAO;
+import ua.training.model.service.regex.Regex;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,7 +48,7 @@ public class HomeServlet extends HttpServlet {
                 imagesToAdd.add(img);
         }
         if (!imagesToAdd.isEmpty()){
-            if (isNameUnique(req.getParameter("name")))
+            if (isNameValid(req.getParameter("name")) && isNameUnique(req.getParameter("name")))
             slideShows.add(new SlideShow(req.getParameter("name"), req.getParameter("format"),
                     0.0, LocalDateTime.now(), imagesToAdd));
         }
@@ -55,6 +56,15 @@ public class HomeServlet extends HttpServlet {
             errors.add("You must choose at list one image to create a slideshow");
         }
         req.setAttribute("errors", errors);
+    }
+
+    private boolean isNameValid(String name) {
+        if (name.matches(Regex.NAME_REGEX))
+            return true;
+        else {
+            errors.add(String.format("Sorry, name %s is out format", name));
+            return false;
+        }
     }
 
     private boolean isNameUnique(String name) {
@@ -109,6 +119,8 @@ public class HomeServlet extends HttpServlet {
         try {
             Image imageToDelete = imageDAO.getImageByName(nameToDelete);
             imageDAO.deleteImage(imageToDelete);
+            for (SlideShow slideShow: slideShows)
+                slideShow.deleteFrame(imageToDelete);
             getServletContext().setAttribute("imageList", list);
         } catch (SQLException e) {
             e.printStackTrace();
