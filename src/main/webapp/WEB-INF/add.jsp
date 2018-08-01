@@ -10,11 +10,11 @@
         Add image
     </h2>
     <h4>
-        <a href="/home/getAll">Back to the main page</a>
+        <a href="/getAll">Back to the main page</a>
     </h4>
     <p><span style="color: green;"> <c:out value="${success}"/></span></p>
     <c:forEach var="error" items="${requestScope.errors}">
-        <p><span style="color: red; "><c:out value="${error}"/></span> </p>
+        <p><span style="color: red; "><c:out value="${error}"/></span></p>
     </c:forEach>
     <c:set var="map" value="${requestScope.data}"/>
     <form method="post" action="/add">

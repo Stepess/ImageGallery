@@ -1,4 +1,4 @@
-package ua.training.model.servlets;
+package ua.training.controller.command;
 
 import ua.training.model.entity.Image;
 import ua.training.model.entity.RasterImage;
@@ -7,42 +7,48 @@ import ua.training.model.service.database.ImageDAO;
 import ua.training.model.service.factory.ImageMaker;
 import ua.training.model.service.regex.Regex;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public class AddServlet extends HttpServlet {
-    private List<String> errorMessages;
-    private String add = "/WEB-INF/add.jsp";
-    Map<String, String> data = new ConcurrentHashMap<>();
-    Boolean addStatus = false;
+public class AddImage implements Command {
+    Map<String, String> data = new HashMap<>();
+    boolean addStatus;
 
     @Override
-    public void init() throws ServletException {
-        errorMessages = new ArrayList<>();
+    public String execute(HttpServletRequest request) {
+        List<String> errorMessages = new ArrayList<>();
+        getDataFromReq(request);
+        request.setAttribute("data", data);
+        request.setAttribute("errors", errorMessages);
+        request.setAttribute("formats", getAllImageFormat());
+        if (isDataNotNull()) {
+            if (!data.isEmpty() && isDataCorrect(data, errorMessages) && isDataUnique(data, errorMessages)) {//double check
+                try {
+                    addImageToDB();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    errorMessages.add("Sorry! Something went wrong. Please, resend your data.");
+                    return "/WEB-INF/add.jsp";
+                }
+                if (addStatus) {
+                    request.setAttribute("success", "Image successfully uploaded");
+                    addStatus = false;
+                    data.clear();
+                }
+            }
+        }
+        return "/WEB-INF/add.jsp";
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("data", data);
-        req.setAttribute("errors", errorMessages);
-        req.setAttribute("formats", getAllImageFormat());
-        if (addStatus) {
-            req.setAttribute("success", "Image successfully uploaded");
-            addStatus = false;
-        }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher(add);
-        requestDispatcher.forward(req, resp);
-        data.clear();
-        errorMessages.clear();
+    private boolean isDataNotNull() {
+        if (data.get("name") != null && data.get("format") != null && data.get("weight") != null && data.get("tag") != null)
+            return true;
+        return false;
     }
 
     private List<String> getAllImageFormat() {
@@ -50,22 +56,6 @@ public class AddServlet extends HttpServlet {
         formats.addAll(RasterImage.RasterFormat.getAllFormats());
         formats.addAll(VectorImage.VectorFormat.getAllFormats());
         return formats;
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getDataFromReq(req);
-        if (isDataCorrect(data, errorMessages) && isDataUnique(data, errorMessages)){//double check
-            try{
-                addImageToDB();
-            }
-            catch (SQLException ex){
-                ex.printStackTrace();
-                errorMessages.add("Sorry! Something went wrong. Please, resend your data.");
-                doGet(req, resp);
-            }
-        }
-        doGet(req, resp);
     }
 
     private void getDataFromReq(HttpServletRequest req) {
@@ -89,26 +79,22 @@ public class AddServlet extends HttpServlet {
 
     private boolean isDataCorrect(Map<String, String> data, List<String> errorMessages) {
         boolean isCorrect = true;
-
-        if (!data.get("name").matches(Regex.NAME_REGEX)){
+        if (!data.get("name").matches(Regex.NAME_REGEX)) {
             errorMessages.add(String.format("Name %s is out of format!", data.get("name")));
             isCorrect = false;
         }
-
-        if (!data.get("weight").matches(Regex.WEIGHT_REGEX)){
+        if (!data.get("weight").matches(Regex.WEIGHT_REGEX)) {
             errorMessages.add(String.format("Weight %s is out of format!", data.get("weight")));
             isCorrect = false;
         }
-
-        if (!data.get("tag").matches(Regex.TAG_REGEX)){
+        if (!data.get("tag").matches(Regex.TAG_REGEX)) {
             errorMessages.add(String.format("Tag %s is out of format!", data.get("tag")));
             isCorrect = false;
         }
-
         return isCorrect;
     }
 
-    private boolean isDataUnique(Map<String, String> data, List<String> errorMessages){
+    private boolean isDataUnique(Map<String, String> data, List<String> errorMessages) {
         boolean isUnique = true;
         ImageDAO imageDAO = new ImageDAO();
         List<Image> images = null;
@@ -117,9 +103,8 @@ public class AddServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        for (Image image: images)
-            if (image.getName().equals(data.get("name"))){
+        for (Image image : images)
+            if (image.getName().equals(data.get("name"))) {
                 errorMessages.add(String.format("Sorry! Name %s is already taken!", data.get("name")));
                 isUnique = false;
                 break;
@@ -128,5 +113,3 @@ public class AddServlet extends HttpServlet {
         return isUnique;
     }
 }
-
-

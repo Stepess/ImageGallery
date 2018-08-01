@@ -9,12 +9,12 @@
 
 <div style="text-align: center;">
     <h1>Search images</h1>
-    <h4><a href="/home">Result</a></h4>
+    <h4><a href="/">Result</a></h4>
     <p>tip: please, enter values that you want use for search</p>
 </div>
 <div align="center">
     <c:forEach var="error" items="${requestScope.errors}">
-        <p><span style="color: red; "><c:out value="${error}"/></span> </p>
+        <p><span style="color: red; "><c:out value="${error}"/></span></p>
     </c:forEach>
 
     <form method="post" action="/search">
@@ -29,7 +29,7 @@
             <tr>
                 <td><p>Weight range</p></td>
                 <td><input type="number" name="leftWeightBoundary" value="0.0" step="0.0001"></td>
-                <td><input type="number" name="rightWeightBoundary" value="100.0" step="0.0001"></td>
+                <td><input type="number" name="rightWeightBoundary" value="1000.0" step="0.0001"></td>
             </tr>
             <tr>
                 <td><p>Tag range</p></td>

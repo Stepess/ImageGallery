@@ -10,9 +10,11 @@ public class RasterImage extends Image {
         JPEG, PNG, BMP;
 
         public static boolean contains(String format){
-            for (RasterFormat rasterFormat: RasterFormat.values())
-                if (rasterFormat.toString().equals(format.toUpperCase()))
+            for (RasterFormat rasterFormat: RasterFormat.values()){
+                if (rasterFormat.toString().equals(format.toUpperCase())) {
                     return true;
+                }
+            }
             return false;
         }
 
